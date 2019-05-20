@@ -1,0 +1,27 @@
+.Collapsible {
+  .expand::before {
+    color: #777;
+    content: "[+]";
+    left: 0;
+    position: absolute;
+  }
+
+  .contract::before {
+    color: #777;
+    content: "[-]";
+    left: 0;
+    position: absolute;
+  }
+
+  &:hover {
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  @for $i from 0 through 5 {
+    &__level#{$i} {
+      padding-left: calc(#{$i} * 2.4rem);
+      display: block;
+    }
+  }
+}

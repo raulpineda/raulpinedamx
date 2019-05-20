@@ -1,0 +1,43 @@
+.AboutMe {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  width: auto;
+
+  &__picture {
+    flex: 0 0 auto;
+  }
+
+  &__greeting {
+    margin: 0 0 0 2.4rem;
+    font-size: 12rem;
+    font-family: "Paytone One", sans-serif;
+    flex: 1 0 auto;
+    color: #111;
+
+    &--highlight {
+      background: linear-gradient(
+        180deg,
+        #111 0%,
+        #111 64%,
+        #00eab7 65%,
+        #00eab7 100%
+      );
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+
+  &__description {
+    flex: 2 0 100%;
+    font-size: 2rem;
+    text-align: justify;
+  }
+
+  &__subtitle {
+    flex: 1 0 100%;
+    font-size: 2.4rem;
+    font-weight: bold;
+    color: #00eab7;
+  }
+}
