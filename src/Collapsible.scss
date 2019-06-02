@@ -1,27 +1,25 @@
 .Collapsible {
-  .expand::before {
+  &:not(&__root) .expand::before {
     color: #777;
     content: "[+]";
-    left: 0;
+    left: -3.6rem;
     position: absolute;
   }
 
-  .contract::before {
+  &:not(&__root) .collapse::before {
     color: #777;
     content: "[-]";
-    left: 0;
+    left: -3.6rem;
     position: absolute;
   }
 
-  &:hover {
+  &:not(&__root):hover {
     cursor: pointer;
     font-weight: bold;
   }
 
-  @for $i from 0 through 5 {
-    &__level#{$i} {
-      padding-left: calc(#{$i} * 2.4rem);
-      display: block;
-    }
+  &__child {
+    display: block;
+    padding: 0.3rem 0 0.3rem 2rem;
   }
 }

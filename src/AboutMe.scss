@@ -1,9 +1,12 @@
 .AboutMe {
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  width: auto;
+  flex: 0 0 75%;
+  flex-direction: column;
 
+  &__header {
+    display: flex;
+    flex-direction: row;
+  }
   &__picture {
     flex: 0 0 auto;
   }
@@ -29,15 +32,29 @@
   }
 
   &__description {
-    flex: 2 0 100%;
     font-size: 2rem;
     text-align: justify;
   }
 
   &__subtitle {
-    flex: 1 0 100%;
     font-size: 2.4rem;
     font-weight: bold;
     color: #00eab7;
+  }
+
+  &__footer {
+    margin-top: auto;
+    justify-content: center;
+    display: flex;
+    font-size: 1.4rem;
+    line-height: 1.8rem;
+
+    svg.github {
+      height: 1.8rem;
+      width: 1.8rem;
+      vertical-align: baseline;
+      display: inline-block;
+      fill: red;
+    }
   }
 }

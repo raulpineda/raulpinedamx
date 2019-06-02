@@ -4,23 +4,22 @@ import "./Collapsible.scss";
 
 class Collapsible extends React.PureComponent {
   state = {
-    isExpanded: false,
+    isExpanded: this.props.isRoot ? true : false
   };
 
   handleToggleExpanded() {
+    if (this.props.isRoot) {
+      return;
+    }
+
     this.setState(state => ({
-      isExpanded: !state.isExpanded,
+      isExpanded: !state.isExpanded
     }));
   }
 
-  renderChild(child) {
-    const className = classNames(
-      "Collapsible__child",
-      `Collapsible__level${this.props.depthClass + 1}`
-    );
-
+  renderChild(child, index, parent) {
     return (
-      <span className={className}>
+      <span className="Collapsible__child" key={`${parent}-child-${index}`}>
         {child}
         <span>,</span>
       </span>
@@ -28,11 +27,11 @@ class Collapsible extends React.PureComponent {
   }
 
   render() {
-    const { children, title, type } = this.props;
+    const { children, title, type, isRoot } = this.props;
     const { isExpanded } = this.state;
     const className = classNames(
       "Collapsible",
-      `Collapsible__level${this.props.depthClass}`,
+      this.props.isRoot ? "Collapsible__root" : null,
       isExpanded ? "isExpanded" : null
     );
 
@@ -43,9 +42,9 @@ class Collapsible extends React.PureComponent {
           onClick={this.handleToggleExpanded.bind(this)}
         >
           <span className="expand" />
-          {`${title}: ${type === "object" ? "{" : "["} ... ${
+          {`${title}${isRoot ? "=" : ":"} ${type === "object" ? "{" : "["}…${
             type === "object" ? "}" : "]"
-          },`}
+          }`}
         </span>
       );
     }
@@ -56,13 +55,15 @@ class Collapsible extends React.PureComponent {
           className={className}
           onClick={this.handleToggleExpanded.bind(this)}
         >
-          <span className="contract" />
-          {`${title}: ${type === "object" ? "{" : "["}`}
+          <span className="collapse" />
+          {`${title}${isRoot ? " =" : ":"} ${type === "object" ? "{" : "["}`}
         </span>
-        {children.map(child => this.renderChild(child))}
-        <span className={this.props.depthClass}>{`${
-          type === "object" ? "}" : "]"
-        },`}</span>
+        {Array.isArray(children)
+          ? children.map((child, index) =>
+              this.renderChild(child, index, title)
+            )
+          : this.renderChild(children, 0, title)}
+        <span>{`${type === "object" ? "}" : "]"}${isRoot ? ";" : ""}`}</span>
       </>
     );
   }
