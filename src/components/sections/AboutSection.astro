@@ -1,0 +1,55 @@
+---
+import Section from "../Section.astro";
+import SkillsBox from "../SkillsBox.astro";
+import WorkExperienceBox from "../WorkExperienceBox.astro";
+const {
+  aboutMe,
+  technicalSkills,
+  personalSkills,
+  languages,
+  workExperiences,
+  volunteeringExperiences,
+} = Astro.props;
+---
+
+<Section styles="p-1 " ids="about">
+  <div
+    class="flex min-h-[75vh] w-full basis-0 flex-col items-center gap-1 md:flex-row md:justify-between md:gap-[5rem]"
+  >
+    <div class="w-[100%] p-5 md:w-[60%]">
+      <div class="">
+        <h3
+          class="text-[4rem] font-bold leading-[4rem] md:text-[6rem] md:leading-[8rem]"
+        >
+          About Me
+        </h3>
+        <p
+          class="mb-5 mt-5 text-justify leading-6 text-slate-700 md:mt-8 md:text-2xl md:leading-7"
+        >
+          {aboutMe}
+        </p>
+        <h3
+          class="text-[2rem] font-bold leading-[4rem] md:ml-2 md:text-[4rem] md:leading-[8rem]"
+        >
+          Skills
+        </h3>
+        <h4 class="text-[3rem]">Technical</h4>
+        <SkillsBox skills={technicalSkills} />
+        <h4 class="text-[3rem]">Personal</h4>
+        <SkillsBox skills={personalSkills} />
+        <h4 class="text-[3rem]">Languages</h4>
+        <SkillsBox skills={languages} />
+      </div>
+    </div>
+    <div class="flex w-[100%] flex-col justify-start gap-5 md:mr-5 md:w-[30%]">
+      <h3 class="ml-4 font-semibold uppercase text-slate-600">
+        Work Experience
+      </h3>
+      <WorkExperienceBox workExperiences={workExperiences} />
+      <h3 class="ml-4 font-semibold uppercase text-slate-600">
+        Volunteering Experience
+      </h3>
+      <WorkExperienceBox workExperiences={volunteeringExperiences} />
+    </div>
+  </div>
+</Section>
