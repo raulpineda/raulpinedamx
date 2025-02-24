@@ -1,0 +1,12 @@
+---
+import { ArrowBendUpRight } from "@phosphor-icons/react";
+const { contact } = Astro.props;
+---
+
+<a
+  href={contact.link}
+  class="flex w-full cursor-pointer items-center justify-between border-b-2 p-5 text-slate-500 transition duration-300 hover:border-black hover:font-semibold hover:text-black"
+>
+  <p>{contact.name}</p>
+  <ArrowBendUpRight size={32} />
+</a>

@@ -1,11 +1,34 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import MainLayout from "../layouts/MainLayout.astro";
+import {
+  NAME,
+  BIO,
+  NAV_LINKS,
+  ABOUT_ME,
+  TECHNICAL_SKILLS,
+  PERSONAL_SKILLS,
+  LANGUAGES,
+  WORK_EXPERIENCES,
+  VOLUNTEERING_EXPERIENCES,
+  CONTACT_TEXT,
+  CONTACT_OPTIONS,
+  SITE_DESCRIPTION,
+  SITE_TITLE,
+} from "../data";
+import AboutSection from "../components/sections/AboutSection.astro";
+import MainSection from "../components/sections/MainSection.astro";
+import ContactSection from "../components/sections/ContactSection.astro";
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<MainLayout siteTitle={SITE_TITLE} siteDescription={SITE_DESCRIPTION}>
+  <MainSection name={NAME} bio={BIO} navLinks={NAV_LINKS} />
+  <AboutSection
+    aboutMe={ABOUT_ME}
+    technicalSkills={TECHNICAL_SKILLS}
+    personalSkills={PERSONAL_SKILLS}
+    languages={LANGUAGES}
+    workExperiences={WORK_EXPERIENCES}
+    volunteeringExperiences={VOLUNTEERING_EXPERIENCES}
+  />
+  <ContactSection contactText={CONTACT_TEXT} contactOptions={CONTACT_OPTIONS} />
+</MainLayout>

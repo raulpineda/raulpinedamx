@@ -1,0 +1,29 @@
+---
+import Navbar from "../Navbar";
+import Section from "../Section.astro";
+const { navLinks, name, bio } = Astro.props;
+---
+
+<Section styles="p-1">
+  <Navbar navLinks={navLinks} />
+  <div
+    class="mt-[3rem] flex min-h-[80vh] w-full basis-0 flex-col items-center gap-1 md:mt-3 md:min-h-[85vh] md:flex-row md:justify-between md:gap-[5rem]"
+  >
+    <div class="w-[100%] p-5 md:w-[60%]">
+      <div>
+        <h2
+          class="text-[4rem] font-bold leading-[4rem] md:text-[5rem] md:leading-[8rem] lg:text-[6rem] xl:text-[7rem]"
+        >
+          ¡Hola! My name is {name}.
+        </h2>
+      </div>
+      <p
+        class="mb-5 mt-5 text-justify leading-6 text-slate-700 md:mt-8 md:text-2xl md:leading-7"
+      >
+        Nice to meet you. {bio}
+      </p>
+    </div>
+    <div class="flex w-[100%] flex-col justify-start gap-5 md:mr-5 md:w-[30%]">
+    </div>
+  </div>
+</Section>
