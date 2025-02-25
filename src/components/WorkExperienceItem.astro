@@ -1,6 +1,15 @@
 ---
+import SkillsBox from "./SkillsBox.astro";
+
 const {
-  workExperience: { organisationName, position, date, info, icon: Icon },
+  workExperience: {
+    organisationName,
+    position,
+    date,
+    info,
+    skills,
+    icon: Icon,
+  },
 } = Astro.props;
 ---
 
@@ -24,4 +33,5 @@ const {
   <ul class="ml-3 mt-1 list-disc p-2">
     {info.map(info => <li>{info}</li>)}
   </ul>
+  {skills && <SkillsBox skills={skills} />}
 </div>

@@ -9,12 +9,12 @@ const { navLinks, name, bio } = Astro.props;
   <div
     class="mt-[3rem] flex min-h-[80vh] w-full basis-0 flex-col items-center gap-1 md:mt-3 md:min-h-[85vh] md:flex-row md:justify-between md:gap-[5rem]"
   >
-    <div class="w-[100%] p-5 md:w-[60%]">
+    <div class="w-[100%] p-5 md:w-[55%]">
       <div>
         <h2
-          class="text-[4rem] font-bold leading-[4rem] md:text-[5rem] md:leading-[8rem] lg:text-[6rem] xl:text-[7rem]"
+          class="text-[4rem] font-bold leading-[4rem] md:text-[5rem] md:leading-[8rem]"
         >
-          ¡Hola! My name is {name}.
+          ¡Hola!<br />My name is {name}.
         </h2>
       </div>
       <p
@@ -23,7 +23,7 @@ const { navLinks, name, bio } = Astro.props;
         Nice to meet you. {bio}
       </p>
     </div>
-    <div class="flex w-[100%] flex-col justify-start gap-5 md:mr-5 md:w-[30%]">
+    <div class="flex w-[100%] flex-col justify-start gap-5 md:mr-5 md:w-[40%]">
     </div>
   </div>
 </Section>
