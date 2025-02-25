@@ -7,74 +7,87 @@ export const SITE_DESCRIPTION = "A software development lead resume.";
 
 export const NAME = "Raúl";
 export const BIO =
-  "I am a software engineering leader based in Copenhagen, Denmark. I love working with teams who build products that have real impact on lots of people.";
+  "I am a software engineering leader based in Copenhagen, Denmark. I love working with teams who build products that have real impact on people.";
 export const ABOUT_ME =
-  "I specialize in front-end development with a focus on creating user-friendly interfaces. My skills include HTML, CSS, JavaScript, and frameworks like React and Vue.js. I also have experience in back-end development using Node.js and Express, making me a versatile full-stack developer.";
+  "I am experienced in leading full stack teams building web applications and platforms. I have over ten years of experience as a software engineer, specializing in front end development and product engineering.";
 export const CONTACT_TEXT =
-  "I’d love to hear from you! Whether you have questions, collaboration ideas, or just want to connect, feel free to reach out. I’m always open to engaging conversations and exploring new opportunities.";
+  "I'd love to hear from you! I'm always open to good conversations and exploring new opportunities.";
 export const NAV_LINKS = [
   { name: "Home", href: "/" },
   { name: "About", href: "/#about" },
   { name: "Contact", href: "/#contact" },
 ];
-export const TECHNICAL_SKILLS = [
-  "TypeScript",
-  "JavaScript",
-  "React",
-  "Nodejs",
-  "Python",
-  "Ruby on Rails",
-  "Kubernetes",
-  "Docker",
-];
-export const PERSONAL_SKILLS = [
-  "Engineering management",
-  "Career development",
-  "Public speaking",
-  "Project management",
-  "Training",
-  "Coaching",
-];
-export const LANGUAGES = [
-  "Spanish (Native)",
-  "English (Bilingual)",
-  "Danish (Conversational)",
-  "German (Basic)",
-];
+
 export const WORK_EXPERIENCES = [
   {
     organisationName: "DataRobot",
     position: "Staff Engineer & Team Lead — Applications",
     date: "2024 - PRESENT",
-    info: ["I worked on this", "I showed this skills"],
+    info: [
+      "I lead a full stack team building DataRobot's AI Application platform",
+      "We enable code-first users to build, manage, and deploy their artificial intelligence applications on DataRobot's infrastructure",
+      "Part of the incident response team since 2021, following blameless processes",
+    ],
+    skills: [
+      "Engineering management",
+      "Kubernetes",
+      "Coaching",
+      "Python",
+      "Go",
+      "NodeJs",
+    ],
     icon: Robot,
   },
   {
     organisationName: "DataRobot",
     position: "Staff Front End Engineer — MLOps",
     date: "2022 - 2024",
-    info: ["I worked on this", "I showed this skills"],
+    info: [
+      "Led a team of front engineers building the interfaces for making predictions",
+      "Automated testing of multiple combinations of intake-inference-output configurations",
+      "Refactored and modernized the model governance solution",
+    ],
+    skills: [
+      "React",
+      "TanStack Query",
+      "Jest",
+      "Cypress",
+      "Project management",
+    ],
     icon: Robot,
   },
   {
     organisationName: "DataRobot",
     position: "Senior Front End Engineer — Inference",
     date: "2019 - 2022",
-    info: ["I worked on this", "I showed this skills"],
+    info: [
+      "Migrated the legacy Angular inference interfaces into React",
+      "Build inference functionality into the MLOps platform",
+      "Collaborated with the Core UI division regularly contributing to the design system",
+    ],
+    skills: ["React", "Angular", "Karma", "Design systems"],
     icon: Robot,
   },
   {
     organisationName: "Saxo Bank",
     position: "Senior Front End Developer",
     date: "2017 - 2019",
-    info: ["I worked on this", "I showed this skills"],
+    info: [
+      "Part of the team developing the bank's trading platforms",
+      "Implemented a multi-window state management solution allowing users to seamlessly move trading modules between windows.",
+    ],
+    skills: ["React", "Redux", "Electron", "Cypress"],
     icon: ChartLineUp,
   },
   {
     organisationName: "Vivino",
     position: "Front End Developer",
     date: "2015 - 2017",
-    info: ["I worked on this", "I showed this skills"],
+    info: [
+      "Migrated the web application from a primarily static website using Ruby and jQuery to a social media and e-commerce platform using React",
+      "Built Vivino's back office analytics and e-commerce management platform for wine merchants",
+    ],
+    skills: ["React", "Ember", "Ruby on Rails"],
     icon: Wine,
   },
 ];
@@ -82,13 +95,34 @@ export const VOLUNTEERING_EXPERIENCES = [
   {
     organisationName: "Codher",
     date: "2016- 2019",
-    info: ["I worked on this", "I showed this skills"],
+    info: [
+      "Taught introductory courses to programming primarily for women and other minorities in technology",
+      "Responsible for contenct strategy and managing the team of mentors",
+    ],
+    skills: [
+      "Mentoring",
+      "Public speaking",
+      "Content planning",
+      "Volunteer mananagement",
+    ],
     icon: Code,
   },
   {
     organisationName: "AIESEC",
-    date: "2015 - 2017",
-    info: ["I worked on this", "I showed this skills"],
+    date: "2009 - 2013",
+    info: [
+      "Served as Vice President of Finance for AIESEC in Austria",
+      "Held multiple trainings and conferences for audiences of up to 500 participants",
+      "Sales and partnership management in AIESEC in Mexico",
+    ],
+    skills: [
+      "Financial strategy",
+      "Leadership",
+      "Training",
+      "Public speaking",
+      "Partnerships",
+      "Volunteer management",
+    ],
     icon: Globe,
   },
 ];
