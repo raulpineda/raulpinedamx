@@ -7,7 +7,7 @@ export const SITE_DESCRIPTION = "A software development lead resume.";
 
 export const NAME = "Raúl";
 export const BIO =
-  "I am a software engineering leader based in Copenhagen, Denmark. I love working with teams who build products that have real impact on people.";
+  "I am a software engineering leader with over a decade of experience in front end development based in Copenhagen, Denmark. I love working with teams who build products that make people lives better.";
 export const ABOUT_ME =
   "I am experienced in leading full stack teams building web applications and platforms. I have over ten years of experience as a software engineer, specializing in front end development and product engineering.";
 export const CONTACT_TEXT =

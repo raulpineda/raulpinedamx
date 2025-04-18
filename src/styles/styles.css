@@ -9,7 +9,11 @@ html {
 }
 
 body {
-  font-family: 'Monaspace Argon', monospace;
+  font-family: "Monaspace Argon", monospace;
+}
+
+.text-highlight {
+  color: #134f5c;
 }
 
 &::-webkit-scrollbar {
