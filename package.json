@@ -1,7 +1,7 @@
 {
   "name": "raulpinedamx",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -9,14 +9,14 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/react": "^4.2.0",
-    "@astrojs/sitemap": "^3.2.1",
-    "@astrojs/tailwind": "^5.1.2",
+    "@astrojs/react": "^4.2.4",
+    "@astrojs/sitemap": "^3.3.0",
+    "@astrojs/tailwind": "^6.0.2",
     "@fontsource/monaspace-argon": "^5.1.0",
     "@phosphor-icons/react": "^2.1.7",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
-    "astro": "^5.3.1",
+    "astro": "^5.7.4",
     "eslint": "^9.21.0",
     "framer-motion": "^12.4.7",
     "react": "^19.0.0",
