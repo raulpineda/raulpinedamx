@@ -4,81 +4,73 @@ layout: base.njk
 
 <!-- Full sticky frame: hero top, sections bottom -->
 <div id="scroll-sections" class="relative" style="height: 500vh">
-  <div class="sticky top-[3.5rem] overflow-hidden" style="height: calc(100vh - 3.5rem)">
+  <div class="sticky top-[3.5rem]" style="height: calc(100vh - 3.5rem)">
 
-    <!-- Hero: starts at 80%, shrinks to 40% on scroll -->
-    <div id="hero-panel" class="flex items-center px-8 transition-none lg:px-16" style="height: 80%">
+    <!-- Hero: starts at 80%, shrinks to 33% on scroll -->
+    <div id="hero-panel" class="flex items-center overflow-hidden px-8 transition-none lg:px-16" style="height: 80%">
       <div class="max-w-3xl">
-        <h1 id="hero-heading" class="text-4xl font-light leading-snug text-slate-900 lg:text-6xl lg:leading-snug">
-          ¡Hola! I'm <span class="font-bold">{{ site.name }}</span>,<br/>
-          a <span id="hero-role">product engineer</span><br/>
-          building <span class="text-highlight">shared context</span> for teams and AI.<span id="hero-cursor" class="inline-block w-[3px] bg-slate-900 align-baseline" style="height:1em;display:none">&nbsp;</span>
+        <h1 id="hero-heading" class="text-4xl font-light leading-snug text-slate-900 dark:text-slate-100 lg:text-6xl lg:leading-snug">
+          ¡Hola! I'm <span class="font-bold">{{ site.name }}</span>, <span id="hero-article">a</span> <span id="hero-role">product engineer</span> building <span class="text-highlight dark:text-highlight-light">shared context</span> for teams and AI.<span id="hero-cursor" class="inline-block w-[3px] bg-slate-900 align-baseline dark:bg-slate-100" style="height:1em;display:none">&nbsp;</span>
         </h1>
-        <p class="mt-10 max-w-xl text-base font-light leading-relaxed text-slate-500">
-          Currently at <a href="https://palette.team" target="_blank" rel="nofollow noreferrer noopener" class="text-slate-500 underline underline-offset-4 transition hover:text-slate-700">Palette</a>. Previously at DataRobot, Saxo Bank, and Vivino. Copenhagen.
+        <p id="hero-subtitle" class="mt-10 max-w-xl text-base font-light leading-relaxed text-slate-500 dark:text-slate-400">
+          Currently at <a href="https://palette.team" target="_blank" rel="nofollow noreferrer noopener" class="text-slate-500 underline underline-offset-4 transition hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300">Palette</a>. Previously at DataRobot, Saxo Bank, and Vivino. Copenhagen.
         </p>
-        <div class="mt-10 flex gap-4 text-sm">
+        <div id="hero-links" class="mt-10 flex gap-4 text-sm">
           {% for contact in site.contactOptions %}
-          <a href="{{ contact.link }}" rel="nofollow" target="_blank" aria-label="{{ contact.name }} (opens in new tab)" class="text-highlight underline underline-offset-4 transition hover:no-underline">{{ contact.name }}</a>
+          <a href="{{ contact.link }}" rel="nofollow" target="_blank" aria-label="{{ contact.name }} (opens in new tab)" class="text-highlight underline underline-offset-4 transition hover:no-underline dark:text-highlight-light">{{ contact.name }}</a>
           {% endfor %}
-          <a href="/RaulPineda_Resume.pdf" rel="nofollow" target="_blank" aria-label="Resume (opens in new tab)" class="text-highlight underline underline-offset-4 transition hover:no-underline">Resume</a>
+          <a href="/RaulPineda_Resume.pdf" rel="nofollow" target="_blank" aria-label="Resume (opens in new tab)" class="text-highlight underline underline-offset-4 transition hover:no-underline dark:text-highlight-light">Resume</a>
         </div>
       </div>
     </div>
 
     <!-- Divider -->
-    <div id="section-divider" class="mx-8 border-t border-slate-100 lg:mx-16"></div>
+    <div id="section-divider" class="mx-8 border-t border-slate-100 dark:border-slate-800 lg:mx-16"></div>
 
-    <!-- Sections: fills remaining space, visible from the start -->
+    <!-- Sections: fills remaining space -->
     <div id="sections-panel" class="relative" style="height: 19%">
 
       <!-- About -->
-      <div class="scroll-panel absolute inset-0 flex items-center opacity-100 transition-opacity duration-500" data-section="about" id="about">
-        <div class="w-full px-8 lg:px-16">
-          <div class="mx-auto max-w-3xl">
-            <p class="text-sm font-medium uppercase tracking-[0.2em] text-slate-400">About</p>
-            <p class="mt-6 text-xl font-light leading-relaxed text-slate-700">
-              I've been building interfaces my whole career. The users have changed over time, from regular people, to specialists, to AI agents sometimes.
-            </p>
-          </div>
+      <div class="scroll-panel absolute inset-0 overflow-y-auto opacity-100 transition-opacity duration-500" data-section="about" id="about">
+        <div class="section-content mx-auto w-full max-w-3xl px-8 py-6 lg:px-16">
+          <p class="text-sm font-medium uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">About</p>
+          <p class="mt-6 text-xl font-light leading-relaxed text-slate-700 dark:text-slate-300">
+            I've been building interfaces my whole career. The users have changed over time, from regular people, to specialists, to AI agents sometimes.
+          </p>
         </div>
       </div>
 
       <!-- Experience -->
-      <div class="scroll-panel absolute inset-0 flex items-center opacity-0 transition-opacity duration-500" data-section="experience" id="experience">
-        <div class="w-full px-8 lg:px-16">
-          <div class="mx-auto max-w-3xl">
-            <p class="text-sm font-medium uppercase tracking-[0.2em] text-slate-400">Experience</p>
-            <div class="mt-8 space-y-8">
-              {% for exp in site.workExperiences %}
-              <div>
-                <div class="flex items-baseline justify-between">
-                  <h3 class="text-lg font-bold">{{ exp.organisationName }}</h3>
-                  <span class="text-sm text-slate-400">{{ exp.date | replace(" - ", "–") | replace("PRESENT", "Present") }}</span>
-                </div>
-                {% if exp.position %}
-                <p class="mt-1 text-sm text-slate-500">{{ exp.position }}</p>
-                {% endif %}
+      <div class="scroll-panel absolute inset-0 overflow-y-auto opacity-0 transition-opacity duration-500" data-section="experience" id="experience">
+        <div class="section-content mx-auto w-full max-w-3xl px-8 py-6 lg:px-16">
+          <p class="text-sm font-medium uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">Experience</p>
+          <div class="mt-8 space-y-8">
+            {% for exp in site.workExperiences %}
+            <div>
+              <div class="flex items-baseline justify-between">
+                <h3 class="text-lg font-bold">{{ exp.organisationName }}</h3>
+                <span class="text-sm text-slate-400 dark:text-slate-500">{{ exp.date | replace(" - ", "–") | replace("PRESENT", "Present") }}</span>
               </div>
-              {% endfor %}
+              {% if exp.position %}
+              <p class="mt-1 text-sm text-slate-500 dark:text-slate-400">{{ exp.position }}</p>
+              {% endif %}
             </div>
+            {% endfor %}
           </div>
         </div>
       </div>
 
       <!-- Contact -->
-      <div class="scroll-panel absolute inset-0 flex items-center opacity-0 transition-opacity duration-500" data-section="contact" id="contact">
-        <div class="w-full px-8 lg:px-16">
-          <div class="mx-auto max-w-3xl">
-            <h2 class="text-3xl font-bold">Let's connect</h2>
-            <p class="mt-4 text-base font-light text-slate-500">
-              Want to chat about engineering, collaborate on something, or just say hello?
-            </p>
-            <div class="mt-8 flex gap-6 text-sm">
-              {% for contact in site.contactOptions %}
-              <a href="{{ contact.link }}" rel="nofollow" target="_blank" aria-label="{{ contact.name }} (opens in new tab)" class="text-highlight underline underline-offset-4 transition hover:no-underline">{{ contact.name }}</a>
-              {% endfor %}
-            </div>
+      <div class="scroll-panel absolute inset-0 overflow-y-auto opacity-0 transition-opacity duration-500" data-section="contact" id="contact">
+        <div class="section-content mx-auto w-full max-w-3xl px-8 py-6 lg:px-16">
+          <h2 class="text-3xl font-bold">Let's connect</h2>
+          <p class="mt-4 text-base font-light text-slate-500 dark:text-slate-400">
+            Want to chat about engineering, collaborate on something, or just say hello?
+          </p>
+          <div class="mt-8 flex gap-6 text-sm">
+            {% for contact in site.contactOptions %}
+            <a href="{{ contact.link }}" rel="nofollow" target="_blank" aria-label="{{ contact.name }} (opens in new tab)" class="text-highlight underline underline-offset-4 transition hover:no-underline dark:text-highlight-light">{{ contact.name }}</a>
+            {% endfor %}
           </div>
         </div>
       </div>

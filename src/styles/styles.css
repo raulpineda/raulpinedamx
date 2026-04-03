@@ -42,24 +42,46 @@ main {
   border-radius: 2px;
 }
 
-/* Hamburger menu transforms */
-nav.menu-open #menu-toggle {
-  position: fixed;
-  right: 1.25rem;
-  top: 1.5rem;
+.dark :focus-visible {
+  outline-color: #2cb5a0;
 }
 
-nav.menu-open .hamburger-line:nth-child(1) {
-  transform: rotate(45deg) translateY(7px);
-  width: 30px;
+/* On small screens, disable the sticky scroll effect and show all sections stacked */
+@media (max-width: 767px) {
+  #scroll-sections {
+    height: auto !important;
+  }
+
+  #scroll-sections > .sticky {
+    position: relative;
+    top: auto;
+    height: auto !important;
+  }
+
+  #hero-panel {
+    overflow: visible;
+  }
+
+  #hero-panel {
+    height: auto !important;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  #sections-panel {
+    height: auto !important;
+  }
+
+  #sections-panel .scroll-panel {
+    position: relative;
+    inset: auto;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  #sections-panel .scroll-panel > div {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
 }
 
-nav.menu-open .hamburger-line:nth-child(2) {
-  opacity: 0;
-  width: 0;
-}
-
-nav.menu-open .hamburger-line:nth-child(3) {
-  transform: rotate(-45deg) translateY(-5px);
-  width: 30px;
-}

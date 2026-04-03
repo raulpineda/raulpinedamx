@@ -80,10 +80,20 @@
     return [dx, dy];
   }
 
+  function isDark() {
+    return document.documentElement.classList.contains("dark");
+  }
+
+  function dotColor(alpha) {
+    return isDark()
+      ? `rgba(148, 163, 184, ${alpha * 0.6})`
+      : `rgba(148, 163, 184, ${alpha})`;
+  }
+
   function drawDot(x, y, r, alpha) {
     ctx.beginPath();
     ctx.arc(x, y, r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(148, 163, 184, ${alpha})`;
+    ctx.fillStyle = dotColor(alpha);
     ctx.fill();
   }
 
@@ -158,7 +168,7 @@
           ctx.beginPath();
           ctx.moveTo(tx, ty);
           ctx.lineTo(x, y);
-          ctx.strokeStyle = `rgba(148, 163, 184, ${alpha * 0.4})`;
+          ctx.strokeStyle = dotColor(alpha * 0.4);
           ctx.lineWidth = 0.5 + warpIntensity;
           ctx.stroke();
 
