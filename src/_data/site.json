@@ -1,0 +1,93 @@
+{
+  "title": "Raúl Pineda",
+  "description": "Founding Product Engineer at Palette. Based in Copenhagen.",
+  "name": "Raúl",
+  "bio": "I am a Founding Product Engineer at Palette and an engineering leader based in Copenhagen with over a decade of experience building web applications and leading teams. I am interested in responsible AI in engineering and how senior careers are evolving in the age of agents.",
+  "aboutMe": "I have spent over a decade building and leading engineering teams at companies like DataRobot, Saxo Bank, and Vivino. These days I am thinking about what changes and what stays the same as AI reshapes how we build software.",
+  "aboutInterests": "I am interested in responsible AI in engineering and how senior careers are evolving — from leading large teams of people to collaborating with other senior engineers leading teams of agents.",
+  "contactText": "I'd love to hear from you. Whether you want to chat about engineering, collaborate on something, or just say hello.",
+  "navLinks": [
+    { "name": "Home", "href": "/" },
+    { "name": "About", "href": "/#about" },
+    { "name": "Contact", "href": "/#contact" }
+  ],
+  "workExperiences": [
+    {
+      "organisationName": "Palette",
+      "position": "Founding Product Engineer",
+      "date": "2025 - PRESENT",
+      "info": [],
+      "skills": [],
+      "icon": "head-circuit"
+    },
+    {
+      "organisationName": "DataRobot",
+      "position": "Staff Engineer & Team Lead",
+      "date": "2019 - 2025",
+      "info": [],
+      "skills": [],
+      "icon": "robot"
+    },
+    {
+      "organisationName": "Saxo Bank",
+      "position": "Senior Front End Developer",
+      "date": "2017 - 2019",
+      "info": [
+        "Part of the team developing the bank's trading platforms",
+        "Implemented a multi-window state management solution allowing users to seamlessly move trading modules between windows."
+      ],
+      "skills": ["React", "Redux", "Electron", "Cypress"],
+      "icon": "chart-line-up"
+    },
+    {
+      "organisationName": "Vivino",
+      "position": "Front End Developer",
+      "date": "2015 - 2017",
+      "info": [
+        "Migrated the web application from a primarily static website using Ruby and jQuery to a social media and e-commerce platform using React",
+        "Built Vivino's back office analytics and e-commerce management platform for wine merchants"
+      ],
+      "skills": ["React", "Ember", "Ruby on Rails"],
+      "icon": "wine"
+    }
+  ],
+  "volunteeringExperiences": [
+    {
+      "organisationName": "Codher",
+      "date": "2016 - 2019",
+      "info": [
+        "Taught introductory courses to programming primarily for women and other minorities in technology",
+        "Responsible for content strategy and managing the team of mentors"
+      ],
+      "skills": [
+        "Mentoring",
+        "Public speaking",
+        "Content planning",
+        "Volunteer management"
+      ],
+      "icon": "code"
+    },
+    {
+      "organisationName": "AIESEC",
+      "date": "2009 - 2013",
+      "info": [
+        "Served as Vice President of Finance for AIESEC in Austria",
+        "Held multiple trainings and conferences for audiences of up to 500 participants",
+        "Sales and partnership management in AIESEC in Mexico"
+      ],
+      "skills": [
+        "Financial strategy",
+        "Leadership",
+        "Training",
+        "Public speaking",
+        "Partnerships",
+        "Volunteer management"
+      ],
+      "icon": "globe"
+    }
+  ],
+  "contactOptions": [
+    { "name": "Github", "link": "https://github.com/raulpineda/" },
+    { "name": "LinkedIn", "link": "https://www.linkedin.com/in/raulpineda/" }
+  ]
+}

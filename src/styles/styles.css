@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 * {
   padding: 0;
   margin: 0;
@@ -10,14 +14,52 @@ html {
 
 body {
   font-family: "Monaspace Argon", monospace;
+  overflow-x: hidden;
+  scrollbar-width: none;
 }
 
-.text-highlight {
-  color: #134f5c;
+body::-webkit-scrollbar {
+  display: none;
 }
 
-&::-webkit-scrollbar {
-  display: none !important;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+/* Dot grid canvas */
+canvas#grid {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+main {
+  position: relative;
+  z-index: 1;
+}
+
+/* Focus states */
+:focus-visible {
+  outline: 2px solid #134f5c;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Hamburger menu transforms */
+nav.menu-open #menu-toggle {
+  position: fixed;
+  right: 1.25rem;
+  top: 1.5rem;
+}
+
+nav.menu-open .hamburger-line:nth-child(1) {
+  transform: rotate(45deg) translateY(7px);
+  width: 30px;
+}
+
+nav.menu-open .hamburger-line:nth-child(2) {
+  opacity: 0;
+  width: 0;
+}
+
+nav.menu-open .hamburger-line:nth-child(3) {
+  transform: rotate(-45deg) translateY(-5px);
+  width: 30px;
 }

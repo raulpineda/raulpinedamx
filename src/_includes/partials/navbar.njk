@@ -1,0 +1,22 @@
+<nav class="sticky top-0 z-40 flex items-center justify-between bg-white/90 px-8 py-4 backdrop-blur-sm lg:px-16" id="nav">
+  <a href="/" class="text-sm font-bold text-highlight">~/<span id="nav-section"></span></a>
+  <div class="hidden gap-8 text-sm text-slate-500 md:flex">
+    {% for link in site.navLinks %}
+    <a href="{{ link.href }}" class="transition hover:text-slate-900">{{ link.name }}</a>
+    {% endfor %}
+  </div>
+  <div class="z-50 flex cursor-pointer flex-col gap-[3.5px] md:hidden" id="menu-toggle">
+    <span class="hamburger-line h-[2px] w-[30px] bg-black transition-all duration-300"></span>
+    <span class="hamburger-line h-[2px] w-[25px] bg-black transition-all duration-300"></span>
+    <span class="hamburger-line h-[2px] w-[15px] bg-black transition-all duration-300"></span>
+  </div>
+  <div class="fixed left-0 top-0 z-30 hidden h-screen w-screen flex-col items-center justify-center bg-white md:hidden" id="menu-overlay">
+    <ul class="flex flex-col items-center gap-3">
+      {% for link in site.navLinks %}
+      <li class="menu-item animate-slide-in" style="animation-delay: {{ loop.index0 * 100 }}ms">
+        <a href="{{ link.href }}" class="text-xl text-slate-700 transition-all duration-[0.3s] hover:text-slate-950">{{ link.name }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</nav>

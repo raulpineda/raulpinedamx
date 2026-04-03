@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="{{ description or site.description }}" />
+    <title>{% if title %}{{ title }} — {{ site.title }}{% else %}{{ site.title }}{% endif %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/monaspace-argon@latest/200.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/monaspace-argon@latest/300.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/monaspace-argon@latest/400.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/monaspace-argon@latest/500.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/monaspace-argon@latest/600.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/monaspace-argon@latest/700.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/monaspace-argon@latest/800.css" />
+    <link rel="stylesheet" href="/styles/styles.css" />
+  </head>
+  <body class="bg-white text-slate-900">
+    <canvas id="grid"></canvas>
+    {% include "partials/navbar.njk" %}
+    <main>
+      {{ content | safe }}
+    </main>
+    <footer class="sticky bottom-0 z-10 border-t border-slate-100 bg-white/90 px-8 py-4 backdrop-blur-sm lg:px-16">
+      <div class="mx-auto max-w-3xl text-xs text-slate-400">
+        <span>&copy; {{ site.title }}</span>
+      </div>
+    </footer>
+    <script src="/js/menu.js" defer></script>
+    <script src="/js/grid.js" defer></script>
+    <script src="/js/typewriter.js" defer></script>
+    <script src="/js/scroll-sections.js" defer></script>
+  </body>
+</html>

@@ -1,8 +1,9 @@
 # build output
 dist/
+_site/
 
-# generated types
-.astro/
+# editor directories and files
+*.local
 
 # dependencies
 node_modules/
@@ -22,3 +23,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# claude
+.claude/
