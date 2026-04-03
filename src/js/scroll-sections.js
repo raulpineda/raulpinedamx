@@ -1,24 +1,8 @@
 (() => {
   const BREAKPOINT = 768;
-  const container = document.getElementById("scroll-sections");
-  const heroPanel = document.getElementById("hero-panel");
-  const sectionsPanel = document.getElementById("sections-panel");
-  const sectionDivider = document.getElementById("section-divider");
-  const navSection = document.getElementById("nav-section");
-  if (!container || !heroPanel || !sectionsPanel) return;
-
-  const panels = Array.from(container.querySelectorAll(".scroll-panel"));
-
-  // Hero collapse elements
-  const heroHeading = document.getElementById("hero-heading");
-  const heroContent = heroPanel.querySelector(".max-w-3xl");
-  const heroSubtitle = document.getElementById("hero-subtitle");
-  const heroLinks = document.getElementById("hero-links");
-
-  const HERO_START = 80; // hero starts at 80% of available height
-  const HERO_END = 33;   // hero shrinks to 33%
-  const FONT_START = 3.75; // rem — text-6xl
-  const FONT_END = 1.875;  // rem — text-3xl
+  const HERO_START = 80;
+  const HERO_END = 33;
+  const SHRINK_PHASE = 0.2;
 
   const sectionNames = {
     about: "about/me/",
@@ -26,188 +10,223 @@
     contact: "contact/",
   };
 
-  const SHRINK_PHASE = 0.2;
-  let activeIndex = -1;
-  let enabled = window.innerWidth >= BREAKPOINT;
+  // ── Hero collapse ────────────────────────────────────────────────
+  // Manages the hero panel's transition from full-size to compact
+  // banner as the user scrolls through the shrink phase.
 
-  function applyHeroCollapse(t) {
-    // t: 0 = fully expanded, 1 = fully collapsed
-    if (heroHeading) {
-      heroHeading.style.fontSize = (FONT_START - (FONT_START - FONT_END) * t) + "rem";
-    }
-    if (heroContent) {
-      heroContent.style.maxWidth = t > 0 ? "none" : "";
-    }
-    if (heroSubtitle) {
-      heroSubtitle.style.opacity = Math.max(0.6, 1 - t * 0.4);
-      heroSubtitle.style.fontSize = (1 - 0.125 * t) + "rem"; // 1rem → 0.875rem
-      heroSubtitle.style.marginTop = (2.5 - 1.5 * t) + "rem"; // mt-10 → mt-4
-    }
-    if (heroLinks) {
-      heroLinks.style.opacity = String(1 - t);
-      heroLinks.style.marginTop = (2.5 * (1 - t)) + "rem";
-      heroLinks.style.height = t >= 1 ? "0" : "";
-      heroLinks.style.overflow = t > 0 ? "hidden" : "";
-    }
-  }
+  function createHeroCollapse(heroPanel) {
+    const heading = document.getElementById("hero-heading");
+    const content = heroPanel.querySelector(".max-w-3xl");
+    const subtitle = document.getElementById("hero-subtitle");
+    const links = document.getElementById("hero-links");
 
-  function resetHeroCollapse() {
-    if (heroHeading) heroHeading.style.fontSize = "";
-    if (heroContent) heroContent.style.maxWidth = "";
-    if (heroSubtitle) { heroSubtitle.style.opacity = ""; heroSubtitle.style.fontSize = ""; heroSubtitle.style.marginTop = ""; }
-    if (heroLinks) { heroLinks.style.opacity = ""; heroLinks.style.marginTop = ""; heroLinks.style.height = ""; heroLinks.style.overflow = ""; }
-  }
+    const FONT_START = 3.75; // rem — text-6xl
+    const FONT_END = 1.875;  // rem — text-3xl
 
-  function centerSectionContent() {
-    panels.forEach((panel) => {
-      const content = panel.querySelector(".section-content");
-      if (!content) return;
-      const panelH = panel.clientHeight;
-      const contentH = content.scrollHeight;
-      content.style.paddingTop = contentH < panelH
-        ? ((panelH - contentH) / 2) + "px"
-        : "";
-    });
-  }
-
-  function resetMobile() {
-    heroPanel.style.height = "";
-    sectionsPanel.style.height = "";
-    panels.forEach((p) => {
-      p.style.opacity = "";
-      p.style.pointerEvents = "";
-      const c = p.querySelector(".section-content");
-      if (c) c.style.paddingTop = "";
-    });
-    if (navSection) navSection.textContent = "";
-    resetHeroCollapse();
-  }
-
-  window.addEventListener("resize", () => {
-    const wasEnabled = enabled;
-    enabled = window.innerWidth >= BREAKPOINT;
-    if (wasEnabled && !enabled) {
-      activeIndex = -1;
-      resetMobile();
-    } else if (!wasEnabled && enabled) {
-      update();
-    } else if (enabled) {
-      centerSectionContent();
-    }
-  });
-
-  function update() {
-    if (!enabled) return;
-    if (navLock) return;
-    const rect = container.getBoundingClientRect();
-    const containerHeight = container.offsetHeight;
-    const scrollRange = containerHeight - window.innerHeight;
-
-    // Overall progress through the scroll container (0 to 1)
-    const rawProgress = -rect.top / scrollRange;
-    const progress = Math.max(0, Math.min(1, rawProgress));
-
-    if (progress <= SHRINK_PHASE) {
-      // Shrinking hero
-      const shrinkProgress = progress / SHRINK_PHASE;
-      const heroHeight = HERO_START - (HERO_START - HERO_END) * shrinkProgress;
-      const sectionsHeight = 99 - heroHeight; // leave 1% for divider
-
-      heroPanel.style.height = heroHeight + "%";
-      sectionsPanel.style.height = sectionsHeight + "%";
-      applyHeroCollapse(shrinkProgress);
-      centerSectionContent();
-
-      // About is always visible during shrink phase
-      if (activeIndex !== 0) {
-        activeIndex = 0;
-        panels.forEach((p, i) => {
-          p.style.opacity = i === 0 ? "1" : "0";
-          p.style.pointerEvents = i === 0 ? "auto" : "none";
-        });
-      }
-
-      // Update nav — show about/me/ once scrolling starts, clear at top
-      if (navSection) {
-        if (shrinkProgress > 0.05) {
-          navSection.textContent = sectionNames[panels[0].dataset.section] || "";
-        } else {
-          navSection.textContent = "";
+    return {
+      // Apply collapse at progress t (0 = expanded, 1 = collapsed)
+      apply(t) {
+        if (heading) {
+          heading.style.fontSize = (FONT_START - (FONT_START - FONT_END) * t) + "rem";
         }
-      }
-    } else {
-      // Hero fully shrunk — cycle sections
-      heroPanel.style.height = HERO_END + "%";
-      sectionsPanel.style.height = (99 - HERO_END) + "%";
-      sectionsPanel.style.opacity = "1";
-      applyHeroCollapse(1);
-      centerSectionContent();
-      if (sectionDivider) sectionDivider.style.opacity = "1";
-
-      const sectionProgress = (progress - SHRINK_PHASE) / (1 - SHRINK_PHASE);
-      const newIndex = Math.min(
-        Math.floor(sectionProgress * panels.length),
-        panels.length - 1,
-      );
-
-      if (newIndex !== activeIndex) {
-        activeIndex = newIndex;
-        panels.forEach((panel, i) => {
-          panel.style.opacity = i === activeIndex ? "1" : "0";
-          panel.style.pointerEvents = i === activeIndex ? "auto" : "none";
-        });
-        if (navSection) {
-          const sectionId = panels[activeIndex].dataset.section;
-          navSection.textContent = sectionNames[sectionId] || "";
+        if (content) {
+          content.style.maxWidth = t > 0 ? "none" : "";
         }
-      }
-    }
+        if (subtitle) {
+          subtitle.style.opacity = Math.max(0.6, 1 - t * 0.4);
+          subtitle.style.fontSize = (1 - 0.125 * t) + "rem";
+          subtitle.style.marginTop = (2.5 - 1.5 * t) + "rem";
+        }
+        if (links) {
+          links.style.opacity = String(1 - t);
+          links.style.marginTop = (2.5 * (1 - t)) + "rem";
+          links.style.height = t >= 1 ? "0" : "";
+          links.style.overflow = t > 0 ? "hidden" : "";
+        }
+      },
+
+      reset() {
+        if (heading) heading.style.fontSize = "";
+        if (content) content.style.maxWidth = "";
+        if (subtitle) {
+          subtitle.style.opacity = "";
+          subtitle.style.fontSize = "";
+          subtitle.style.marginTop = "";
+        }
+        if (links) {
+          links.style.opacity = "";
+          links.style.marginTop = "";
+          links.style.height = "";
+          links.style.overflow = "";
+        }
+      },
+    };
   }
 
-  // Nav link clicks — crossfade directly, then sync scroll position
-  const sectionIndices = { about: 0, experience: 1, contact: 2 };
-  let navLock = false; // prevent scroll handler from fighting the crossfade
+  // ── Section panels ───────────────────────────────────────────────
+  // Manages which content section is visible and keeps it vertically
+  // centered within the available space.
 
-  document.querySelectorAll("a[href^='/#']").forEach((link) => {
-    link.addEventListener("click", (e) => {
-      const hash = link.getAttribute("href").replace("/#", "");
-      const index = sectionIndices[hash];
-      if (index === undefined) return;
-      if (!enabled) return;
+  function createSectionPanels(sectionsPanel) {
+    const panels = Array.from(sectionsPanel.querySelectorAll(".scroll-panel"));
+    let activeIndex = -1;
 
-      e.preventDefault();
-
-      // Immediately crossfade to target panel
-      navLock = true;
+    function show(index) {
+      if (index === activeIndex) return;
       activeIndex = index;
       panels.forEach((panel, i) => {
         panel.style.opacity = i === index ? "1" : "0";
         panel.style.pointerEvents = i === index ? "auto" : "none";
       });
+    }
 
-      // Update nav path
-      if (navSection) {
-        const sectionId = panels[index].dataset.section;
-        navSection.textContent = sectionNames[sectionId] || "";
-      }
+    function centerContent() {
+      panels.forEach((panel) => {
+        const content = panel.querySelector(".section-content");
+        if (!content) return;
+        const panelH = panel.clientHeight;
+        const contentH = content.scrollHeight;
+        content.style.paddingTop = contentH < panelH
+          ? ((panelH - contentH) / 2) + "px"
+          : "";
+      });
+    }
 
-      // Ensure hero is shrunk and collapsed
-      heroPanel.style.height = HERO_END + "%";
-      sectionsPanel.style.height = (99 - HERO_END) + "%";
-      applyHeroCollapse(1);
+    function reset() {
+      activeIndex = -1;
+      panels.forEach((p) => {
+        p.style.opacity = "";
+        p.style.pointerEvents = "";
+        const c = p.querySelector(".section-content");
+        if (c) c.style.paddingTop = "";
+      });
+    }
 
-      // Silently set scroll position to match
+    function activeSectionId() {
+      if (activeIndex < 0 || activeIndex >= panels.length) return null;
+      return panels[activeIndex].dataset.section;
+    }
+
+    return {
+      panels,
+      show,
+      centerContent,
+      reset,
+      activeSectionId,
+      get activeIndex() { return activeIndex; },
+    };
+  }
+
+  // ── Nav breadcrumb ───────────────────────────────────────────────
+
+  function updateNav(navSection, sectionId) {
+    if (navSection) {
+      navSection.textContent = sectionId ? (sectionNames[sectionId] || "") : "";
+    }
+  }
+
+  // ── Orchestrator ─────────────────────────────────────────────────
+  // Wires scroll events, resize handling, and nav clicks to the
+  // hero collapse and section panel modules above.
+
+  const container = document.getElementById("scroll-sections");
+  const heroPanel = document.getElementById("hero-panel");
+  const sectionsPanel = document.getElementById("sections-panel");
+  const sectionDivider = document.getElementById("section-divider");
+  const navSection = document.getElementById("nav-section");
+  if (!container || !heroPanel || !sectionsPanel) return;
+
+  const hero = createHeroCollapse(heroPanel);
+  const sections = createSectionPanels(sectionsPanel);
+  let enabled = window.innerWidth >= BREAKPOINT;
+  let navLock = false;
+
+  function setLayout(heroHeight) {
+    heroPanel.style.height = heroHeight + "%";
+    sectionsPanel.style.height = (99 - heroHeight) + "%";
+  }
+
+  function onScroll() {
+    if (!enabled || navLock) return;
+
+    const rect = container.getBoundingClientRect();
+    const scrollRange = container.offsetHeight - window.innerHeight;
+    const progress = Math.max(0, Math.min(1, -rect.top / scrollRange));
+
+    if (progress <= SHRINK_PHASE) {
+      const t = progress / SHRINK_PHASE;
+      setLayout(HERO_START - (HERO_START - HERO_END) * t);
+      hero.apply(t);
+      sections.show(0);
+      sections.centerContent();
+      updateNav(navSection, t > 0.05 ? sections.activeSectionId() : null);
+    } else {
+      setLayout(HERO_END);
+      hero.apply(1);
+      if (sectionDivider) sectionDivider.style.opacity = "1";
+
+      const sectionProgress = (progress - SHRINK_PHASE) / (1 - SHRINK_PHASE);
+      const index = Math.min(
+        Math.floor(sectionProgress * sections.panels.length),
+        sections.panels.length - 1,
+      );
+      sections.show(index);
+      sections.centerContent();
+      updateNav(navSection, sections.activeSectionId());
+    }
+  }
+
+  function resetMobile() {
+    heroPanel.style.height = "";
+    sectionsPanel.style.height = "";
+    sections.reset();
+    hero.reset();
+    updateNav(navSection, null);
+  }
+
+  // Resize handling
+  window.addEventListener("resize", () => {
+    const wasEnabled = enabled;
+    enabled = window.innerWidth >= BREAKPOINT;
+    if (wasEnabled && !enabled) {
+      resetMobile();
+    } else if (!wasEnabled && enabled) {
+      onScroll();
+    } else if (enabled) {
+      sections.centerContent();
+    }
+  });
+
+  // Nav link clicks — crossfade directly, then sync scroll position
+  const sectionIndices = { about: 0, experience: 1, contact: 2 };
+
+  document.querySelectorAll("a[href^='/#']").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      const hash = link.getAttribute("href").replace("/#", "");
+      const index = sectionIndices[hash];
+      if (index === undefined || !enabled) return;
+
+      e.preventDefault();
+      navLock = true;
+
+      sections.show(index);
+      updateNav(navSection, sections.activeSectionId());
+      setLayout(HERO_END);
+      hero.apply(1);
+
+      // Sync scroll position to match the visible section
       const scrollRange = container.offsetHeight - window.innerHeight;
-      const sectionProgress = (index + 0.5) / panels.length;
+      const sectionProgress = (index + 0.5) / sections.panels.length;
       const totalProgress = SHRINK_PHASE + sectionProgress * (1 - SHRINK_PHASE);
-      const targetScroll = container.offsetTop + totalProgress * scrollRange;
-      window.scrollTo({ top: targetScroll, behavior: "instant" });
+      window.scrollTo({
+        top: container.offsetTop + totalProgress * scrollRange,
+        behavior: "instant",
+      });
 
-      // Release lock after a tick so scroll handler stays in sync
       requestAnimationFrame(() => { navLock = false; });
     });
   });
 
-  window.addEventListener("scroll", update, { passive: true });
-  update();
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
 })();
