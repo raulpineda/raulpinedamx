@@ -12,6 +12,16 @@ html {
   scroll-behavior: smooth;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .scroll-panel {
+    transition: none !important;
+  }
+}
+
 body {
   font-family: "Monaspace Argon", monospace;
   overflow-x: hidden;
@@ -60,9 +70,6 @@ main {
 
   #hero-panel {
     overflow: visible;
-  }
-
-  #hero-panel {
     height: auto !important;
     padding-top: 2rem;
     padding-bottom: 2rem;

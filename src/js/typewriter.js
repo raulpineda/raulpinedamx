@@ -158,5 +158,11 @@
     }, 800);
   }
 
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    // Skip animation — show final text immediately
+    for (const t of textNodes) t.node.textContent = t.fullText;
+    return;
+  }
+
   setTimeout(typeChar, 400);
 })();

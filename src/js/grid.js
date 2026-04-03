@@ -15,6 +15,8 @@
   let targetMouseX = -1000;
   let targetMouseY = -1000;
 
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   // Warp state
   let warpIntensity = 0;
   let warpTarget = 0;
@@ -77,17 +79,18 @@
       }
     }
 
-    return [dx, dy];
+    disp[0] = dx;
+    disp[1] = dy;
   }
 
-  function isDark() {
-    return document.documentElement.classList.contains("dark");
-  }
+  // Reusable output buffer for gravitationalDisplacement
+  const disp = [0, 0];
+
+  // Dark mode state — cached once per frame in draw()
+  let darkFrame = false;
 
   function dotColor(alpha) {
-    return isDark()
-      ? `rgba(148, 163, 184, ${alpha * 0.6})`
-      : `rgba(148, 163, 184, ${alpha})`;
+    return `rgba(148, 163, 184, ${darkFrame ? alpha * 0.6 : alpha})`;
   }
 
   function drawDot(x, y, r, alpha) {
@@ -98,6 +101,7 @@
   }
 
   function draw() {
+    darkFrame = document.documentElement.classList.contains("dark");
     mouseX += (targetMouseX - mouseX) * 0.15;
     mouseY += (targetMouseY - mouseY) * 0.15;
 
@@ -120,7 +124,7 @@
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    const offsetY = -(window.scrollY % SPACING);
+    const offsetY = 0;
     const cols = Math.ceil(canvas.width / SPACING) + 2;
     const rows = Math.ceil(canvas.height / SPACING) + 2;
     const cx = canvas.width / 2;
@@ -132,11 +136,11 @@
         const baseX = col * SPACING;
         const baseY = offsetY + row * SPACING;
 
-        const [dx, dy] = gravitationalDisplacement(baseX, baseY);
-        let x = baseX + dx;
-        let y = baseY + dy;
+        gravitationalDisplacement(baseX, baseY);
+        let x = baseX + disp[0];
+        let y = baseY + disp[1];
 
-        const displacement = Math.sqrt(dx * dx + dy * dy);
+        const displacement = Math.sqrt(disp[0] * disp[0] + disp[1] * disp[1]);
         const alpha = Math.min(0.4 + displacement * 0.04, 0.6);
 
         const cmx = baseX - mouseX;
@@ -179,7 +183,7 @@
       }
     }
 
-    requestAnimationFrame(draw);
+    if (!prefersReducedMotion) requestAnimationFrame(draw);
   }
 
   // Konami code
@@ -222,18 +226,26 @@
     }, WARP_DURATION - WARP_RAMP_DOWN);
   }
 
-  document.addEventListener("mousemove", (e) => {
-    targetMouseX = e.clientX;
-    targetMouseY = e.clientY;
+  window.addEventListener("resize", () => {
+    resize();
+    if (prefersReducedMotion) draw();
   });
-
-  document.addEventListener("mouseleave", () => {
-    targetMouseX = -1000;
-    targetMouseY = -1000;
-  });
-
-  window.addEventListener("resize", resize);
 
   resize();
-  draw();
+  if (prefersReducedMotion) {
+    // Draw a single static frame — no animation loop, no cursor tracking
+    draw();
+  } else {
+    document.addEventListener("mousemove", (e) => {
+      targetMouseX = e.clientX;
+      targetMouseY = e.clientY;
+    });
+
+    document.addEventListener("mouseleave", () => {
+      targetMouseX = -1000;
+      targetMouseY = -1000;
+    });
+
+    draw();
+  }
 })();

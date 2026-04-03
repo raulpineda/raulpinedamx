@@ -10,6 +10,10 @@
     contact: "contact/",
   };
 
+  const sectionIndices = Object.fromEntries(
+    Object.keys(sectionNames).map((key, i) => [key, i]),
+  );
+
   // ── Hero collapse ────────────────────────────────────────────────
   // Manages the hero panel's transition from full-size to compact
   // banner as the user scrolls through the shrink phase.
@@ -22,10 +26,15 @@
 
     const FONT_START = 3.75; // rem — text-6xl
     const FONT_END = 1.875;  // rem — text-3xl
+    let lastT = -1;
 
     return {
-      // Apply collapse at progress t (0 = expanded, 1 = collapsed)
       apply(t) {
+        // Quantize to avoid unnecessary style writes on every scroll tick
+        const q = Math.round(t * 500) / 500;
+        if (q === lastT) return;
+        lastT = q;
+
         if (heading) {
           heading.style.fontSize = (FONT_START - (FONT_START - FONT_END) * t) + "rem";
         }
@@ -46,6 +55,7 @@
       },
 
       reset() {
+        lastT = -1;
         if (heading) heading.style.fontSize = "";
         if (content) content.style.maxWidth = "";
         if (subtitle) {
@@ -70,17 +80,23 @@
   function createSectionPanels(sectionsPanel) {
     const panels = Array.from(sectionsPanel.querySelectorAll(".scroll-panel"));
     let activeIndex = -1;
+    let centerDirty = true;
 
     function show(index) {
       if (index === activeIndex) return;
       activeIndex = index;
+      centerDirty = true;
       panels.forEach((panel, i) => {
-        panel.style.opacity = i === index ? "1" : "0";
-        panel.style.pointerEvents = i === index ? "auto" : "none";
+        const active = i === index;
+        panel.style.opacity = active ? "1" : "0";
+        panel.style.pointerEvents = active ? "auto" : "none";
+        panel.setAttribute("aria-hidden", !active);
       });
     }
 
     function centerContent() {
+      if (!centerDirty) return;
+      centerDirty = false;
       panels.forEach((panel) => {
         const content = panel.querySelector(".section-content");
         if (!content) return;
@@ -92,11 +108,17 @@
       });
     }
 
+    function invalidateCenter() {
+      centerDirty = true;
+    }
+
     function reset() {
       activeIndex = -1;
+      centerDirty = true;
       panels.forEach((p) => {
         p.style.opacity = "";
         p.style.pointerEvents = "";
+        p.removeAttribute("aria-hidden");
         const c = p.querySelector(".section-content");
         if (c) c.style.paddingTop = "";
       });
@@ -108,12 +130,12 @@
     }
 
     return {
-      panels,
+      count: panels.length,
       show,
       centerContent,
+      invalidateCenter,
       reset,
       activeSectionId,
-      get activeIndex() { return activeIndex; },
     };
   }
 
@@ -140,10 +162,15 @@
   const sections = createSectionPanels(sectionsPanel);
   let enabled = window.innerWidth >= BREAKPOINT;
   let navLock = false;
+  let lastHeroHeight = -1;
+  let dividerShown = false;
 
   function setLayout(heroHeight) {
+    if (heroHeight === lastHeroHeight) return;
+    lastHeroHeight = heroHeight;
     heroPanel.style.height = heroHeight + "%";
     sectionsPanel.style.height = (99 - heroHeight) + "%";
+    sections.invalidateCenter();
   }
 
   function onScroll() {
@@ -163,12 +190,15 @@
     } else {
       setLayout(HERO_END);
       hero.apply(1);
-      if (sectionDivider) sectionDivider.style.opacity = "1";
+      if (!dividerShown && sectionDivider) {
+        sectionDivider.style.opacity = "1";
+        dividerShown = true;
+      }
 
       const sectionProgress = (progress - SHRINK_PHASE) / (1 - SHRINK_PHASE);
       const index = Math.min(
-        Math.floor(sectionProgress * sections.panels.length),
-        sections.panels.length - 1,
+        Math.floor(sectionProgress * sections.count),
+        sections.count - 1,
       );
       sections.show(index);
       sections.centerContent();
@@ -179,12 +209,13 @@
   function resetMobile() {
     heroPanel.style.height = "";
     sectionsPanel.style.height = "";
+    lastHeroHeight = -1;
+    dividerShown = false;
     sections.reset();
     hero.reset();
     updateNav(navSection, null);
   }
 
-  // Resize handling
   window.addEventListener("resize", () => {
     const wasEnabled = enabled;
     enabled = window.innerWidth >= BREAKPOINT;
@@ -193,12 +224,10 @@
     } else if (!wasEnabled && enabled) {
       onScroll();
     } else if (enabled) {
+      sections.invalidateCenter();
       sections.centerContent();
     }
   });
-
-  // Nav link clicks — crossfade directly, then sync scroll position
-  const sectionIndices = { about: 0, experience: 1, contact: 2 };
 
   document.querySelectorAll("a[href^='/#']").forEach((link) => {
     link.addEventListener("click", (e) => {
@@ -213,10 +242,10 @@
       updateNav(navSection, sections.activeSectionId());
       setLayout(HERO_END);
       hero.apply(1);
+      sections.centerContent();
 
-      // Sync scroll position to match the visible section
       const scrollRange = container.offsetHeight - window.innerHeight;
-      const sectionProgress = (index + 0.5) / sections.panels.length;
+      const sectionProgress = (index + 0.5) / sections.count;
       const totalProgress = SHRINK_PHASE + sectionProgress * (1 - SHRINK_PHASE);
       window.scrollTo({
         top: container.offsetTop + totalProgress * scrollRange,
