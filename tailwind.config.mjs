@@ -1,19 +1,15 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: "class",
   content: ["./src/**/*.njk", "./src/**/*.md", "./eleventy.config.js"],
   theme: {
     extend: {
       colors: {
-        highlight: "#134f5c",
-      },
-      keyframes: {
-        "slide-in": {
-          from: { opacity: "0", transform: "translateX(100px)" },
-          to: { opacity: "1", transform: "translateX(0)" },
+        highlight: {
+          DEFAULT: "#134f5c",
+          light: "#2cb5a0",
         },
-      },
-      animation: {
-        "slide-in": "slide-in 0.3s ease-out forwards",
+        surface: "#2e3235",
       },
     },
   },

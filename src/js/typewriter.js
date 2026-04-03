@@ -2,6 +2,7 @@
   const heading = document.getElementById("hero-heading");
   const cursor = document.getElementById("hero-cursor");
   const roleEl = document.getElementById("hero-role");
+  const articleEl = document.getElementById("hero-article");
   if (!heading || !cursor || !roleEl) return;
 
 
@@ -104,7 +105,14 @@
     });
   }
 
+  function setArticle(role) {
+    if (articleEl) {
+      articleEl.textContent = /^[aeiou]/i.test(role) ? "an" : "a";
+    }
+  }
+
   function typeRole(text, onDone) {
+    setArticle(text);
     const node = textNodes[roleNodeIndex].node;
     let i = 0;
     function next() {
@@ -119,7 +127,9 @@
   function selectDelete(onDone) {
     const node = textNodes[roleNodeIndex].node;
     // Highlight then delete all at once
-    roleEl.style.backgroundColor = "rgba(148, 163, 184, 0.15)";
+    roleEl.style.backgroundColor = document.documentElement.classList.contains("dark")
+      ? "rgba(148, 163, 184, 0.2)"
+      : "rgba(148, 163, 184, 0.15)";
     roleEl.style.borderRadius = "2px";
     setTimeout(() => {
       node.textContent = "";
@@ -146,6 +156,12 @@
       cursor.style.opacity = "0";
       setTimeout(() => (cursor.style.display = "none"), 500);
     }, 800);
+  }
+
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    // Skip animation — show final text immediately
+    for (const t of textNodes) t.node.textContent = t.fullText;
+    return;
   }
 
   setTimeout(typeChar, 400);
