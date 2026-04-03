@@ -1,9 +1,0 @@
----
-import SkillItem from "./SkillItem.astro";
-
-const { skills = [] } = Astro.props;
----
-
-<div class="flex flex-wrap gap-1 pl-2">
-  {skills.map(skill => <SkillItem skill={skill} />)}
-</div>

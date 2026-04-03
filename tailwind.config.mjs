@@ -1,8 +1,21 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
+  content: ["./src/**/*.njk", "./src/**/*.md", "./eleventy.config.js"],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        highlight: "#134f5c",
+      },
+      keyframes: {
+        "slide-in": {
+          from: { opacity: "0", transform: "translateX(100px)" },
+          to: { opacity: "1", transform: "translateX(0)" },
+        },
+      },
+      animation: {
+        "slide-in": "slide-in 0.3s ease-out forwards",
+      },
+    },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/typography")],
 };

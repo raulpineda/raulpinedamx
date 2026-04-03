@@ -1,0 +1,26 @@
+---
+layout: base.njk
+permalink: /404.html
+---
+<section class="flex min-h-[85vh] flex-col items-center justify-center px-8 text-center">
+  <p class="text-sm font-medium uppercase tracking-[0.3em] text-slate-400">Error 404</p>
+  <h1 class="mt-6 text-5xl font-bold leading-tight lg:text-7xl">
+    Uh oh!
+  </h1>
+  <p class="mt-6 max-w-md text-lg font-light leading-relaxed text-slate-500">
+    This page wandered off somewhere between Copenhagen and the internet. It might come back, but I wouldn't wait around.
+  </p>
+  <a href="/" class="mt-10 text-sm text-highlight underline underline-offset-4 transition hover:no-underline">Take me home</a>
+
+  <div class="mt-16 font-mono text-xs text-slate-300" aria-hidden="true">
+    <pre id="curl-output"></pre>
+  </div>
+  <script>
+    document.getElementById("curl-output").textContent =
+      `    $ curl -I raulpineda.mx${window.location.pathname}\n` +
+      `    HTTP/2 404\n` +
+      `    content-type: text/html; charset=utf-8\n` +
+      `    x-vibes: lost-but-not-forgotten\n` +
+      `    x-suggestion: try-the-homepage`;
+  </script>
+</section>
