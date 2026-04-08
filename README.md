@@ -5,9 +5,9 @@ Personal site built with [11ty](https://www.11ty.dev/) and [Tailwind CSS](https:
 ## Development
 
 ```bash
-npm install
-npm run dev     # http://localhost:8080
-npm run build   # outputs to _site/
+pnpm install
+pnpm dev     # http://localhost:8080
+pnpm build   # outputs to _site/
 ```
 
 ## Structure

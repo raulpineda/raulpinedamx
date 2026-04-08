@@ -2,6 +2,7 @@
   "name": "raulpinedamx",
   "type": "module",
   "version": "2.0.0",
+  "packageManager": "pnpm@10.33.0",
   "scripts": {
     "dev": "eleventy --serve",
     "build": "eleventy"
@@ -15,5 +16,10 @@
     "prettier": "^3.5.2",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "tailwindcss": "^3.4.17"
+  },
+  "pnpm": {
+    "overrides": {
+      "liquidjs": ">=10.25.5"
+    }
   }
 }
