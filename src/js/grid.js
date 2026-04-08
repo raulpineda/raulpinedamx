@@ -14,6 +14,8 @@
   let mouseY = -1000;
   let targetMouseX = -1000;
   let targetMouseY = -1000;
+  let warpCenterX = -1000;
+  let warpCenterY = -1000;
 
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -21,7 +23,7 @@
   let warpIntensity = 0;
   let warpTarget = 0;
   let warpStartTime = 0;
-  const WARP_DURATION = 3500;
+  const WARP_DURATION = 7000;
   const WARP_RAMP_UP = 800;
   const WARP_RAMP_DOWN = 1200;
 
@@ -104,6 +106,8 @@
     darkFrame = document.documentElement.classList.contains("dark");
     mouseX += (targetMouseX - mouseX) * 0.15;
     mouseY += (targetMouseY - mouseY) * 0.15;
+    warpCenterX += (targetMouseX - warpCenterX) * 0.03;
+    warpCenterY += (targetMouseY - warpCenterY) * 0.03;
 
     if (warpTarget > 0) {
       const elapsed = performance.now() - warpStartTime;
@@ -127,8 +131,9 @@
     const offsetY = 0;
     const cols = Math.ceil(canvas.width / SPACING) + 2;
     const rows = Math.ceil(canvas.height / SPACING) + 2;
-    const cx = canvas.width / 2;
-    const cy = canvas.height / 2;
+    const mouseOnPage = targetMouseX > -999;
+    const cx = mouseOnPage ? warpCenterX : canvas.width / 2;
+    const cy = mouseOnPage ? warpCenterY : canvas.height / 2;
     const warpTime = warpTarget > 0 ? performance.now() - warpStartTime : 0;
 
     for (let row = 0; row < rows; row++) {
